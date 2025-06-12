@@ -17,9 +17,8 @@ from ctrader_open_api.messages.OpenApiModelMessages_pb2 import *
 from config import (
     all_client_id, all_client_secret, all_access_token, 
     master_account_id, slave_account_id, AccountConfig, ConnectionType,
-    LOT_SIZE_MULTIPLIERS, DEFAULT_LOT_MULTIPLIER, GLOBAL_LOT_MULTIPLIER,
-    MIN_LOT_SIZE, MAX_LOT_MULTIPLIER, USE_RISK_BASED_SIZING, RISK_BASED_MULTIPLIERS,
-    USE_DYNAMIC_PIP_SIZING, DYNAMIC_PIP_VOLUME_RATIO
+    GLOBAL_LOT_MULTIPLIER,
+    MIN_LOT_SIZE, MAX_LOT_MULTIPLIER,
 )
 
 # Configure logging
@@ -58,6 +57,7 @@ class SymbolData:
     quote_asset_id: int
     current_bid: float = 0.0
     current_ask: float = 0.0
+    volume_step: int = 100
 
 @dataclass
 class AssetData:
@@ -97,6 +97,10 @@ class SingleConnectionTradeCopier:
         # Track data loading status
         self.master_data_loaded = False
         self.slave_data_loaded = False
+        
+        # Track volume ratio used for each symbol so we can apply the same ratio for partial closes
+        # Key: symbol_id  Value: ratio (slave_volume / master_volume) used when opening
+        self.symbol_volume_ratio: Dict[int, float] = {}
         
         # Determine host
         if master_config.connection_type == ConnectionType.LIVE:
@@ -259,8 +263,7 @@ class SingleConnectionTradeCopier:
             self._subscribe_to_events(client, account_id)
             
             # Load master account data for pip calculations
-            if USE_DYNAMIC_PIP_SIZING:
-                self._load_account_data(client, account_id, "master")
+            self._load_account_data(client, account_id, "master")
             
             # Now authorize slave account
             self._authorize_account(client, self.slave_config.account_id)
@@ -270,8 +273,7 @@ class SingleConnectionTradeCopier:
             logger.info(f"[SUCCESS] Slave account {account_id} authorized")
             
             # Load slave account data for pip calculations
-            if USE_DYNAMIC_PIP_SIZING:
-                self._load_account_data(client, account_id, "slave")
+            self._load_account_data(client, account_id, "slave")
         
         # Check if both accounts are ready
         if self.master_authorized and self.slave_authorized:
@@ -380,7 +382,7 @@ class SingleConnectionTradeCopier:
                     if is_closing_order:
                         # This is a position close - we need to close the corresponding position on slave
                         logger.info(f"[CLOSE] Position close detected: {symbol_name}")
-                        self._close_slave_position(client, symbol_id, symbol_name)
+                        self._close_slave_position(client, symbol_id, symbol_name, volume)
                     else:
                         # This is a new position - copy to slave
                         logger.info(f"[OPEN] New position detected: {symbol_name}")
@@ -409,7 +411,7 @@ class SingleConnectionTradeCopier:
             import traceback
             logger.error(f"Traceback: {traceback.format_exc()}")
     
-    def _close_slave_position(self, client, symbol_id, symbol_name):
+    def _close_slave_position(self, client, symbol_id, symbol_name, master_close_volume=None):
         """Close corresponding position on slave account"""
         try:
             logger.info(f"[CLOSE] Closing slave position for {symbol_name}")
@@ -420,13 +422,13 @@ class SingleConnectionTradeCopier:
             
             # Send reconcile request and handle response
             deferred = client.send(reconcile_req)
-            deferred.addCallback(lambda response: self._handle_positions_for_close(client, response, symbol_id, symbol_name))
+            deferred.addCallback(lambda response: self._handle_positions_for_close(client, response, symbol_id, symbol_name, master_close_volume))
             deferred.addErrback(self._on_error)
             
         except Exception as e:
             logger.error(f"Failed to close slave position: {e}")
     
-    def _handle_positions_for_close(self, client, response, symbol_id, symbol_name):
+    def _handle_positions_for_close(self, client, response, symbol_id, symbol_name, master_close_volume=None):
         """Handle reconcile response and close matching position"""
         try:
             reconcile_response = Protobuf.extract(response)
@@ -451,13 +453,32 @@ class SingleConnectionTradeCopier:
                     current_volume = getattr(position_to_close.tradeData, 'volume', None)
                 
                 if position_id and current_volume:
-                    logger.info(f"[CLOSE] Closing position {position_id} for {symbol_name} with volume {current_volume}")
+                    # Determine volume to close based on ratio (partial close)
+                    ratio = self.symbol_volume_ratio.get(symbol_id, 1.0)
+                    raw_volume_to_close = int(master_close_volume * ratio)
+
+                    # Fetch broker volume step directly in API raw units (0.01 base units)
+                    step_raw_units = self.slave_symbols.get(symbol_id).volume_step if symbol_id in self.slave_symbols else MIN_LOT_SIZE
+                    if step_raw_units <= 0:
+                        step_raw_units = MIN_LOT_SIZE
+
+                    logger.debug(f"[CLOSE-CALC] master_close_volume={master_close_volume}, ratio={ratio}, initial={raw_volume_to_close}, step_raw={step_raw_units}")
+
+                    # Round DOWN to nearest broker-allowed increment
+                    volume_to_close = (raw_volume_to_close // step_raw_units) * step_raw_units
+
+                    # If this would leave a remainder smaller than one step, just close everything
+                    if current_volume - volume_to_close <= step_raw_units:
+                        logger.debug(f"[CLOSE-CALC] Remainder {current_volume - volume_to_close} < step {step_raw_units}. Closing full position instead.")
+                        volume_to_close = current_volume
+
+                    logger.info(f"[CLOSE] Closing position {position_id} for {symbol_name} with volume {volume_to_close} (current {current_volume}, step {step_raw_units})")
                     
                     # Create close position order
                     close_order = ProtoOAClosePositionReq()
                     close_order.ctidTraderAccountId = self.slave_config.account_id
                     close_order.positionId = position_id
-                    close_order.volume = current_volume  # Close full position
+                    close_order.volume = volume_to_close
                     
                     deferred = client.send(close_order)
                     deferred.addErrback(self._on_error)
@@ -486,6 +507,11 @@ class SingleConnectionTradeCopier:
             # Calculate adjusted volume with instrument-specific logic
             adjusted_volume = self._calculate_adjusted_volume(trade_signal.symbol, trade_signal.volume)
             
+            # Store ratio for partial-close handling
+            if trade_signal.volume:
+                ratio = adjusted_volume / trade_signal.volume
+                self.symbol_volume_ratio[self._get_symbol_id(trade_signal.symbol)] = ratio
+            
             # Create order using original symbol ID if available
             symbol_id_to_use = trade_signal.symbol_id if trade_signal.symbol_id else self._get_symbol_id(trade_signal.symbol)
             
@@ -511,15 +537,8 @@ class SingleConnectionTradeCopier:
     def _calculate_adjusted_volume(self, symbol, original_volume):
         """Calculate adjusted volume using dynamic pip values or fallback methods"""
         try:
-            if USE_DYNAMIC_PIP_SIZING:
-                # Use dynamic pip value calculation
-                return self._calculate_dynamic_pip_volume(symbol, original_volume)
-            elif USE_RISK_BASED_SIZING and symbol in RISK_BASED_MULTIPLIERS:
-                # Use risk-based calculation
-                return self._calculate_risk_based_volume(symbol, original_volume)
-            else:
-                # Use simple multiplier system
-                return self._calculate_simple_multiplier_volume(symbol, original_volume)
+            return self._calculate_dynamic_pip_volume(symbol, original_volume)
+
                 
         except Exception as e:
             logger.error(f"Error calculating adjusted volume: {e}")
@@ -531,34 +550,34 @@ class SingleConnectionTradeCopier:
         try:
             symbol_id = self._get_symbol_id(symbol)
             
-            # Check if we have pip values cached for this symbol
-            if symbol_id in self.pip_values_cache:
-                pip_data = self.pip_values_cache[symbol_id]
-                master_pip_value = pip_data.get("master_pip_value")
-                slave_pip_value = pip_data.get("slave_pip_value")
+            # # Check if we have pip values cached for this symbol
+            # if symbol_id in self.pip_values_cache:
+            #     pip_data = self.pip_values_cache[symbol_id]
+            #     master_pip_value = pip_data.get("master_pip_value")
+            #     slave_pip_value = pip_data.get("slave_pip_value")
                 
-                if master_pip_value and slave_pip_value:
-                    # Calculate risk multiplier based on pip values
-                    # If slave has higher pip value, we need smaller volume to maintain same risk
-                    risk_multiplier = (master_pip_value / slave_pip_value) * DYNAMIC_PIP_VOLUME_RATIO
+            #     if master_pip_value and slave_pip_value:
+            #         # Calculate risk multiplier based on pip values
+            #         # If slave has higher pip value, we need smaller volume to maintain same risk
+            #         risk_multiplier = (master_pip_value / slave_pip_value) * DYNAMIC_PIP_VOLUME_RATIO
                     
-                    # Apply safety limits
-                    risk_multiplier = min(risk_multiplier, MAX_LOT_MULTIPLIER)
-                    risk_multiplier = max(risk_multiplier, 0.001)
+            #         # Apply safety limits
+            #         risk_multiplier = min(risk_multiplier, MAX_LOT_MULTIPLIER)
+            #         risk_multiplier = max(risk_multiplier, 0.001)
                     
-                    # Calculate adjusted volume
-                    adjusted_volume = int(original_volume * risk_multiplier)
-                    adjusted_volume = max(MIN_LOT_SIZE, adjusted_volume)
+            #         # Calculate adjusted volume
+            #         adjusted_volume = int(original_volume * risk_multiplier)
+            #         adjusted_volume = max(MIN_LOT_SIZE, adjusted_volume)
                     
-                    # Log the calculation details
-                    original_lots = original_volume / 100000
-                    adjusted_lots = adjusted_volume / 100000
+            #         # Log the calculation details
+            #         original_lots = original_volume / 100000
+            #         adjusted_lots = adjusted_volume / 100000
                     
-                    logger.info(f"[DYNAMIC-PIP] {symbol}: {original_lots:.3f} lot → {adjusted_lots:.3f} lot")
-                    logger.info(f"[DYNAMIC-PIP] Master pip value: ${master_pip_value:.5f}, Slave pip value: ${slave_pip_value:.5f}")
-                    logger.info(f"[DYNAMIC-PIP] Risk multiplier: {risk_multiplier:.4f}")
+            #         logger.info(f"[DYNAMIC-PIP] {symbol}: {original_lots:.3f} lot → {adjusted_lots:.3f} lot")
+            #         logger.info(f"[DYNAMIC-PIP] Master pip value: ${master_pip_value:.5f}, Slave pip value: ${slave_pip_value:.5f}")
+            #         logger.info(f"[DYNAMIC-PIP] Risk multiplier: {risk_multiplier:.4f}")
                     
-                    return adjusted_volume
+            #         return adjusted_volume
             
             # If no pip values available, calculate them now
             logger.info(f"[DYNAMIC-PIP] No pip values cached for {symbol}, calculating...")
@@ -594,80 +613,7 @@ class SingleConnectionTradeCopier:
             logger.error(f"Error in dynamic pip volume calculation: {e}")
             return self._calculate_simple_multiplier_volume(symbol, original_volume)
     
-    def _calculate_risk_based_volume(self, symbol, original_volume):
-        """Calculate volume based on risk equivalence between brokers"""
-        try:
-            risk_config = RISK_BASED_MULTIPLIERS[symbol]
-            target_risk_ratio = risk_config.get("target_risk_ratio", 1.0)
-            master_contract_size = risk_config.get("master_contract_size", 100000)
-            slave_contract_size = risk_config.get("slave_contract_size", 100000)
-            
-            # Calculate risk-based multiplier
-            # If slave has larger contract size, we need smaller volume to maintain same risk
-            risk_multiplier = (master_contract_size / slave_contract_size) * target_risk_ratio
-            
-            # Apply safety limits
-            risk_multiplier = min(risk_multiplier, MAX_LOT_MULTIPLIER)
-            risk_multiplier = max(risk_multiplier, 0.001)  # Minimum 0.1% to prevent zero volume
-            
-            # Calculate adjusted volume
-            adjusted_volume = int(original_volume * risk_multiplier)
-            
-            # Ensure minimum volume (broker minimum)
-            adjusted_volume = max(MIN_LOT_SIZE, adjusted_volume)
-            
-            # Log the calculation details
-            original_lots = original_volume / 100000  # Convert micro lots to standard lots
-            adjusted_lots = adjusted_volume / 100000
-            
-            logger.info(f"[RISK-BASED] {symbol}: {original_lots:.3f} lot → {adjusted_lots:.3f} lot")
-            logger.info(f"[RISK-BASED] Master contract: ${master_contract_size}, Slave contract: ${slave_contract_size}")
-            logger.info(f"[RISK-BASED] Risk multiplier: {risk_multiplier:.4f}, Target risk ratio: {target_risk_ratio}")
-            logger.info(f"[DEBUG] Volume calculation: original={original_volume}, risk_multiplier={risk_multiplier:.4f}, result={adjusted_volume}")
-            
-            return adjusted_volume
-            
-        except Exception as e:
-            logger.error(f"Error in risk-based volume calculation: {e}")
-            # Fallback to simple multiplier
-            return self._calculate_simple_multiplier_volume(symbol, original_volume)
-    
-    def _calculate_simple_multiplier_volume(self, symbol, original_volume):
-        """Calculate volume using simple multiplier system (fallback)"""
-        try:
-            # Determine which multiplier to use
-            if GLOBAL_LOT_MULTIPLIER is not None:
-                # Use global multiplier if set
-                multiplier = GLOBAL_LOT_MULTIPLIER
-                logger.info(f"[DEBUG] Using global multiplier: {multiplier}")
-            else:
-                # Use instrument-specific multiplier
-                multiplier = LOT_SIZE_MULTIPLIERS.get(symbol, DEFAULT_LOT_MULTIPLIER)
-                logger.info(f"[DEBUG] Using instrument-specific multiplier for {symbol}: {multiplier}")
-            
-            # Apply safety limits
-            multiplier = min(multiplier, MAX_LOT_MULTIPLIER)
-            multiplier = max(multiplier, 0.001)  # Minimum 0.1% to prevent zero volume
-            
-            # Calculate adjusted volume
-            adjusted_volume = int(original_volume * multiplier)
-            
-            # Ensure minimum volume (broker minimum)
-            adjusted_volume = max(MIN_LOT_SIZE, adjusted_volume)
-            
-            # Log the calculation details
-            original_lots = original_volume / 100000  # Convert micro lots to standard lots
-            adjusted_lots = adjusted_volume / 100000
-            
-            logger.info(f"[VOLUME] {symbol}: {original_lots:.3f} lot → {adjusted_lots:.3f} lot (multiplier: {multiplier})")
-            logger.info(f"[DEBUG] Volume calculation: original={original_volume}, multiplier={multiplier}, result={adjusted_volume}")
-            
-            return adjusted_volume
-            
-        except Exception as e:
-            logger.error(f"Error in simple multiplier calculation: {e}")
-            return max(MIN_LOT_SIZE, int(original_volume * 0.5))
-    
+
     def _get_symbol_id(self, symbol_name: str) -> int:
         """Map symbol name to ID - Extended mapping"""
         symbol_map = {
@@ -804,7 +750,8 @@ class SingleConnectionTradeCopier:
                         pip_position=symbol.pipPosition,
                         lot_size=getattr(symbol, 'lotSize', 100000),
                         base_asset_id=getattr(symbol, 'baseAssetId', 0),
-                        quote_asset_id=getattr(symbol, 'quoteAssetId', 0)
+                        quote_asset_id=getattr(symbol, 'quoteAssetId', 0),
+                        volume_step=getattr(symbol, 'stepVolume', getattr(symbol, 'volumeStep', 100))
                     )
                     symbol_dict[symbol.symbolId] = symbol_data
                 

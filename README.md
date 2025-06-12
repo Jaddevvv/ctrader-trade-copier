@@ -1,204 +1,104 @@
 # cTrader to cTrader Trade Copier
 
-A Python-based trade copier that copies trades from one cTrader account (master) to another cTrader account (slave) using the official cTrader Open API.
+A Python tool that mirrors all trades from one cTrader account **(master)** to another **(slave)** via the official cTrader Open API.
 
-## Features
+---
 
-- ✅ **Single Connection Architecture**: Uses one connection per environment (demo/live) as per cTrader API best practices
-- ✅ **Real-time Trade Copying**: Instantly copies trades from master to slave account
-- ✅ **Position Management**: Properly handles both position opens and closes
-- ✅ **Configurable Lot Sizes**: Flexible lot size multipliers for different instruments
-- ✅ **Multi-Instrument Support**: Forex, Gold, Silver, Indices, Commodities, Crypto
-- ✅ **Broker-Agnostic**: Adapts to different broker contract sizes
-- ✅ **Safety Limits**: Built-in minimum/maximum lot size protection
-- ✅ **Comprehensive Logging**: Detailed logs for monitoring and debugging
+## Key Features
 
-## Quick Start
+* **Single connection architecture** – both accounts share one TCP connection (per environment) in line with cTrader best-practice.
+* **Real-time execution events** – new positions, partial closes and full closes are detected instantly and replicated.
+* **Automatic volume adjustment**  
+  * Primary control: `GLOBAL_LOT_MULTIPLIER` in `config.py` (e.g. `0.5` = copy 50 % of the master volume).  
+  * Safety guard rails: `MIN_LOT_SIZE` and `MAX_LOT_MULTIPLIER`.
+* **Experimental dynamic-pip mode** – the copier can attempt to equalise risk between brokers by comparing pip-values (falls back to the global multiplier when data is missing).
+* **Broker-agnostic symbol mapping** – common IDs for Forex, Metals, Indices, Crypto are built-in; extend the mapping if your broker uses different IDs.
+* **Verbose logging** – everything is written to `trade_copier.log` and printed to the console.
 
-1. **Install Dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+---
 
-2. **Configure Your Accounts**
-   ```bash
-   cp config_template.py config.py
-   # Edit config.py with your credentials and settings
-   ```
-
-3. **Test Lot Size Configuration**
-   ```bash
-   python config_helper.py
-   ```
-
-4. **Run the Trade Copier**
-   ```bash
-   python trade_copier_single.py
-   ```
-
-## Configuration
-
-### Basic Setup
-
-Edit `config.py` with your cTrader API credentials:
-
-```python
-# Your API credentials
-all_client_id = "your_client_id"
-all_client_secret = "your_client_secret" 
-all_access_token = "your_access_token"
-master_account_id = 12345678  # Account to copy FROM
-slave_account_id = 87654321   # Account to copy TO
-```
-
-### Lot Size Multipliers
-
-The key feature is the flexible lot size configuration. You can set different multipliers for different instruments:
-
-```python
-LOT_SIZE_MULTIPLIERS = {
-    # Forex pairs - 50% of master volume
-    "EURUSD": 0.5,
-    "GBPUSD": 0.5,
-    
-    # Gold - adjust based on your broker
-    "XAUUSD": 0.5,  # 0.02 master → 0.01 slave
-    
-    # Indices - smaller multipliers due to higher contract values
-    "US30": 0.1,    # 10% of master volume
-    "SPX500": 0.1,
-    
-    # Crypto - very volatile, smaller multipliers
-    "BTCUSD": 0.1,
-    "ETHUSD": 0.2,
-}
-```
-
-### Configuration Options
-
-| Setting | Description | Example |
-|---------|-------------|---------|
-| `LOT_SIZE_MULTIPLIERS` | Instrument-specific multipliers | `"XAUUSD": 0.5` |
-| `DEFAULT_LOT_MULTIPLIER` | Default for unlisted instruments | `0.5` |
-| `GLOBAL_LOT_MULTIPLIER` | Override all instruments | `None` or `0.5` |
-| `MIN_LOT_SIZE` | Minimum order size (micro lots) | `1000` (0.01 lot) |
-| `MAX_LOT_MULTIPLIER` | Safety limit | `2.0` (max 200%) |
-
-### Examples
-
-**Scenario 1: Gold Trading**
-- Master trades 0.02 lots XAUUSD
-- With multiplier 0.5: Slave trades 0.01 lots
-- Perfect for different broker contract sizes
-
-**Scenario 2: Forex Trading**  
-- Master trades 0.10 lots EURUSD
-- With multiplier 0.5: Slave trades 0.05 lots
-- Standard 50% risk reduction
-
-**Scenario 3: Index Trading**
-- Master trades 0.05 lots US30
-- With multiplier 0.1: Slave trades 0.005 lots (minimum 0.01)
-- Accounts for high contract values
-
-## Testing Your Configuration
-
-Use the configuration helper to test your settings:
+## 1  Installation
 
 ```bash
-python config_helper.py
+# clone / download this repository first
+
+pip install -r requirements.txt
 ```
 
-This will show you:
-- How your current multipliers will work
-- Recommendations for specific instruments
-- Configuration summary
+The only mandatory runtime dependency is the *cTrader-open-api* Python package (declared in `requirements.txt`).
 
-Example output:
-```
-Symbol     Master     Slave      Multiplier   Status
-------------------------------------------------------------
-EURUSD     0.100      0.050      0.500        ✓
-XAUUSD     0.020      0.010      0.500        ✓
-US30       0.050      0.010      0.100        ✓
+---
+
+## 2  Configuration
+
+1. Copy the template and edit the values:
+
+```bash
+cp config_template.py config.py
 ```
 
-## Advanced Configuration
+2. Open `config.py` and fill in **Client ID**, **Client Secret**, **Access Token** and the **account IDs** for your master and slave accounts.
 
-### Global Multiplier
-Set a single multiplier for all instruments:
-```python
-GLOBAL_LOT_MULTIPLIER = 0.3  # 30% of master volume for everything
-```
-
-### Broker-Specific Adjustments
-Different brokers may have different contract sizes. Adjust multipliers accordingly:
+3. Adjust risk parameters if desired:
 
 ```python
-# For Broker A (standard contracts)
-"XAUUSD": 0.5,
+# Percentage of master volume to copy (0.5 = 50 %)
+GLOBAL_LOT_MULTIPLIER = 0.5
 
-# For Broker B (smaller gold contracts)  
-"XAUUSD": 1.0,
-
-# For Broker C (larger gold contracts)
-"XAUUSD": 0.25,
+# Absolute safety limits (micro-lots)
+MIN_LOT_SIZE = 100        # never smaller than 0.01 lot on XAUUSD, for example
+MAX_LOT_MULTIPLIER = 2.0  # never larger than 200 % of the master volume
 ```
 
-## How It Works
+> ℹ️ `GLOBAL_LOT_MULTIPLIER` is applied to **all** instruments.  If you need instrument-specific logic you can extend `_calculate_adjusted_volume()` in `trade_copier_single.py`.
 
-1. **Connection**: Establishes single connection to cTrader API
-2. **Authorization**: Authorizes both master and slave accounts
-3. **Monitoring**: Listens for execution events on master account
-4. **Detection**: Distinguishes between position opens and closes
-5. **Calculation**: Applies appropriate lot size multiplier
-6. **Execution**: Places corresponding order on slave account
+---
 
-## Position Management
+## 3  Running the Copier
 
-The copier correctly handles:
-- ✅ **New Positions**: Opens corresponding position on slave
-- ✅ **Position Closes**: Closes matching position on slave (not opposite trade)
-- ✅ **Partial Closes**: Handles partial position closures
-- ✅ **Multiple Instruments**: Tracks positions per symbol
+```bash
+python trade_copier_single.py
+```
 
-## Safety Features
+You should see output similar to:
 
-- **Minimum Lot Size**: Never places orders below broker minimum
-- **Maximum Multiplier**: Prevents accidentally large positions
-- **Error Handling**: Graceful fallbacks for edge cases
-- **Logging**: Comprehensive logs for monitoring
+```text
+cTrader to cTrader Trade Copier - Single Connection
+=======================================================
+2024-03-01 12:34:56 – INFO – Starting trade copier with single connection…
+…
+```
 
-## Troubleshooting
+The program will continue running until you press **Ctrl-C**.
 
-### Common Issues
+---
 
-1. **"Config.py not found"**
-   - Copy `config_template.py` to `config.py`
-   - Fill in your credentials
+## How It Works (high level)
 
-2. **Wrong lot sizes**
-   - Run `python config_helper.py` to test
-   - Adjust multipliers in `config.py`
-   - Test with small amounts first
+1. Connects to the cTrader demo/live endpoint over TCP (protobuf).
+2. Performs application auth → fetches list of accounts → authorises master & slave.
+3. Subscribes to execution events (master) and spot prices (both) for the most common instruments.
+4. Whenever the master account receives an execution-event the copier:
+   * identifies whether it is a **new position** or a **close / partial close**;
+   * recalculates the volume for the slave (global multiplier or dynamic-pip risk method);
+   * sends a corresponding *MARKET* order (or *CLOSE* request) on the slave account.
 
-3. **Connection issues**
-   - Check your API credentials
-   - Verify account IDs are correct
-   - Ensure accounts are on same environment (demo/live)
+---
 
-4. **Positions not closing properly**
-   - Check logs for execution events
-   - Verify slave account has matching positions
+## Logs & Troubleshooting
 
-### Log Analysis
+* **Log file**: `trade_copier.log` grows quickly; rotate / tail as needed.
+* **Common issues**
+  1. *Auth failed* – check `client_id`, `client_secret`, `access_token`.
+  2. *Wrong environment* – ensure both accounts are DEMO or both are LIVE.
+  3. *Symbol not found* – extend `_get_symbol_id()` / `_get_symbol_name()` mapping.
+  4. *Volume rejected* – confirm your broker's minimum lot size; tweak `MIN_LOT_SIZE`.
 
-Monitor the logs for:
-- `[OPEN]` - New position detected
-- `[CLOSE]` - Position close detected  
-- `[VOLUME]` - Lot size calculations
-- `[SUCCESS]` - Successful operations
-- `[ERROR]` - Issues requiring attention
+---
+
+## License / Disclaimer
+
+This repository is provided **as-is** for educational purposes. Trading carries risk; test on demo accounts first and trade responsibly.
 
 ## API Credentials
 
@@ -216,14 +116,9 @@ Get your credentials from:
 - Valid cTrader API credentials
 - Two cTrader accounts (master and slave)
 
-## License
-
-This project is for educational purposes. Use at your own risk. Always test with small amounts first.
-
 ## Support
 
 For issues:
 1. Check the logs in `trade_copier.log`
-2. Run `python config_helper.py` to test configuration
-3. Verify your API credentials and account setup
-4. Test with demo accounts first 
+2. Verify your API credentials and account setup
+3. Test with demo accounts first 

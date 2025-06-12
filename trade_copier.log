@@ -1,0 +1,1637 @@
+2025-06-12 18:11:15,768 - INFO - Trade copier initialized for demo
+2025-06-12 18:11:15,768 - INFO - Master account: 41423863
+2025-06-12 18:11:15,768 - INFO - Slave account: 41060638
+2025-06-12 18:11:15,769 - INFO - Starting trade copier with single connection...
+2025-06-12 18:11:15,770 - INFO - Client service started - waiting for connection...
+2025-06-12 18:11:15,785 - INFO - Connected to cTrader server
+2025-06-12 18:11:15,786 - INFO - Application authorization sent
+2025-06-12 18:11:16,823 - INFO - [DEBUG] Received message type: 2101
+2025-06-12 18:11:16,823 - INFO - [SUCCESS] Application authorized
+2025-06-12 18:11:16,823 - INFO - Requesting account list...
+2025-06-12 18:11:17,821 - INFO - [DEBUG] Received message type: 2150
+2025-06-12 18:11:17,822 - INFO - Found 2 accounts:
+2025-06-12 18:11:17,822 - INFO -   - Account ID: 41060638
+2025-06-12 18:11:17,823 - INFO -   - Account ID: 41423863
+2025-06-12 18:11:17,823 - INFO - Authorizing Master account 41423863...
+2025-06-12 18:11:18,835 - INFO - [DEBUG] Received message type: 2103
+2025-06-12 18:11:18,835 - INFO - [SUCCESS] Master account 41423863 authorized
+2025-06-12 18:11:18,836 - INFO - [DEBUG] Subscribing to execution events for account 41423863
+2025-06-12 18:11:18,836 - INFO - [SUCCESS] Subscribed to market data for account 41423863
+2025-06-12 18:11:18,837 - INFO - [INFO] Account 41423863 ready to receive execution events
+2025-06-12 18:11:18,837 - INFO - [DATA-LOAD] Loading master account data for pip calculations...
+2025-06-12 18:11:18,838 - INFO - [DATA-LOAD] Data requests sent for master account
+2025-06-12 18:11:18,838 - INFO - Authorizing Slave account 41060638...
+2025-06-12 18:11:19,802 - INFO - [DEBUG] Received message type: 2128
+2025-06-12 18:11:19,803 - INFO - [DEBUG] Unknown message type: 2128
+2025-06-12 18:11:19,804 - INFO - [DEBUG] Message content: ctidTraderAccountId: 41423863
+
+2025-06-12 18:11:19,807 - INFO - [DEBUG] Received message type: 2122
+2025-06-12 18:11:19,808 - INFO - [DATA-LOAD] MASTER deposit asset ID: 16
+2025-06-12 18:11:19,808 - INFO - [DEBUG] Received message type: 2113
+2025-06-12 18:11:19,809 - INFO - [DATA-LOAD] Loaded 77 assets for master
+2025-06-12 18:11:19,809 - INFO - [DEBUG] Received message type: 2117
+2025-06-12 18:11:19,810 - INFO - [DATA-LOAD] Loaded 9 symbols for master
+2025-06-12 18:11:19,812 - INFO - [DATA-LOAD] Subscribed to spot events for 9 symbols (master)
+2025-06-12 18:11:19,812 - INFO - [DATA-LOAD] Master account data loading complete
+2025-06-12 18:11:19,825 - INFO - [DEBUG] Received message type: 2103
+2025-06-12 18:11:19,825 - INFO - [SUCCESS] Slave account 41060638 authorized
+2025-06-12 18:11:19,826 - INFO - [DATA-LOAD] Loading slave account data for pip calculations...
+2025-06-12 18:11:19,826 - INFO - [DATA-LOAD] Data requests sent for slave account
+2025-06-12 18:11:19,826 - INFO - [ACTIVE] Both accounts ready - Trade copier is active!
+2025-06-12 18:11:20,804 - INFO - [DEBUG] Received message type: 2142
+2025-06-12 18:11:20,804 - INFO - [DEBUG] Unknown message type: 2142
+2025-06-12 18:11:20,805 - INFO - [DEBUG] Message content: errorCode: "ALREADY_SUBSCRIBED"
+description: "An attempt to subscribe twice"
+
+2025-06-12 18:11:20,807 - INFO - [DEBUG] Received message type: 2122
+2025-06-12 18:11:20,807 - INFO - [DATA-LOAD] SLAVE deposit asset ID: 11
+2025-06-12 18:11:20,826 - INFO - [DEBUG] Received message type: 2113
+2025-06-12 18:11:20,840 - INFO - [DATA-LOAD] Loaded 2400 assets for slave
+2025-06-12 18:11:20,840 - INFO - [DEBUG] Received message type: 2117
+2025-06-12 18:11:20,841 - INFO - [DATA-LOAD] Loaded 9 symbols for slave
+2025-06-12 18:11:20,841 - INFO - [DATA-LOAD] Subscribed to spot events for 9 symbols (slave)
+2025-06-12 18:11:20,841 - INFO - [DATA-LOAD] Slave account data loading complete
+2025-06-12 18:11:20,841 - INFO - [DATA-LOAD] All account data loaded - pip calculations ready!
+2025-06-12 18:11:21,818 - INFO - [DEBUG] Received message type: 2128
+2025-06-12 18:11:21,818 - INFO - [DEBUG] Unknown message type: 2128
+2025-06-12 18:11:21,819 - INFO - [DEBUG] Message content: ctidTraderAccountId: 41060638
+
+2025-06-12 18:11:24,210 - INFO - [DEBUG] Received message type: 2126
+2025-06-12 18:11:24,211 - INFO - [DEBUG] ProtoOAExecutionEvent received (type 2126)
+2025-06-12 18:11:24,211 - INFO - [DEBUG] Execution event received: ctidTraderAccountId: 41423863
+executionType: ORDER_ACCEPTED
+position {
+  positionId: 506589102
+  tradeData {
+    symbolId: 41
+    volume: 0
+    tradeSide: SELL
+    guaranteedStopLoss: false
+  }
+  positionStatus: POSITION_STATUS_CREATED
+  swap: 0
+  price: 0.0
+  commission: 0
+  marginRate: 0.0
+  mirroringCommission: 0
+  guaranteedStopLoss: false
+  usedMargin: 0
+  moneyDigits: 2
+}
+order {
+  orderId: 845089517
+  tradeData {
+    symbolId: 41
+    volume: 200
+    tradeSide: SELL
+    openTimestamp: 1749744682972
+    guaranteedStopLoss: false
+  }
+  orderType: MARKET
+  orderStatus: ORDER_STATUS_ACCEPTED
+  executedVolume: 0
+  utcLastUpdateTimestamp: 1749744682972
+  closingOrder: false
+  clientOrderId: "ctd-ead8b08e332f4ed0a0c5c23d81c73341"
+  timeInForce: IMMEDIATE_OR_CANCEL
+  positionId: 506589102
+}
+isServerEvent: false
+
+2025-06-12 18:11:24,211 - INFO - [DEBUG] Processing execution event from master account 41423863
+2025-06-12 18:11:24,211 - INFO - [DEBUG] Execution type: 2
+2025-06-12 18:11:24,212 - INFO - [DEBUG] Execution type '2' not handled for trade copying
+2025-06-12 18:11:24,470 - INFO - [DEBUG] Received message type: 2126
+2025-06-12 18:11:24,471 - INFO - [DEBUG] ProtoOAExecutionEvent received (type 2126)
+2025-06-12 18:11:24,473 - INFO - [DEBUG] Execution event received: ctidTraderAccountId: 41423863
+executionType: ORDER_FILLED
+position {
+  positionId: 506589102
+  tradeData {
+    symbolId: 41
+    volume: 200
+    tradeSide: SELL
+    openTimestamp: 1749744683233
+    guaranteedStopLoss: false
+  }
+  positionStatus: POSITION_STATUS_OPEN
+  swap: 0
+  price: 3388.67
+  utcLastUpdateTimestamp: 1749744683233
+  commission: -20
+  marginRate: 3388.68
+  mirroringCommission: 0
+  guaranteedStopLoss: false
+  usedMargin: 1355
+  moneyDigits: 2
+}
+order {
+  orderId: 845089517
+  tradeData {
+    symbolId: 41
+    volume: 200
+    tradeSide: SELL
+    openTimestamp: 1749744682972
+    guaranteedStopLoss: false
+  }
+  orderType: MARKET
+  orderStatus: ORDER_STATUS_FILLED
+  executionPrice: 3388.67
+  executedVolume: 200
+  utcLastUpdateTimestamp: 1749744683233
+  closingOrder: false
+  clientOrderId: "ctd-ead8b08e332f4ed0a0c5c23d81c73341"
+  timeInForce: IMMEDIATE_OR_CANCEL
+  positionId: 506589102
+}
+deal {
+  dealId: 790112868
+  orderId: 845089517
+  positionId: 506589102
+  volume: 200
+  filledVolume: 200
+  symbolId: 41
+  createTimestamp: 1749744682972
+  executionTimestamp: 1749744683233
+  utcLastUpdateTimestamp: 1749744683233
+  executionPrice: 3388.67
+  tradeSide: SELL
+  dealStatus: FILLED
+  marginRate: 3388.68
+  commission: -20
+  baseToUsdConversionRate: 3388.68
+  moneyDigits: 2
+}
+isServerEvent: false
+
+2025-06-12 18:11:24,473 - INFO - [DEBUG] Processing execution event from master account 41423863
+2025-06-12 18:11:24,474 - INFO - [DEBUG] Execution type: 3
+2025-06-12 18:11:24,474 - INFO - [TRADE] Trade detected on master account!
+2025-06-12 18:11:24,475 - INFO - [DEBUG] Is closing order: False
+2025-06-12 18:11:24,475 - INFO - [DEBUG] Deal closePositionDetail check: has_attr=True, value=''
+2025-06-12 18:11:24,475 - INFO - [DEBUG] Deal has no valid closePositionDetail - this is a new position
+2025-06-12 18:11:24,476 - INFO - [DEBUG] Got trade details from deal
+2025-06-12 18:11:24,476 - INFO - [DEBUG] Trade details - Symbol ID: 41, Side: 2, Volume: 200, Is Closing: False
+2025-06-12 18:11:24,476 - INFO - [OPEN] New position detected: XAUUSD
+2025-06-12 18:11:24,476 - INFO - [COPY] Copying: XAUUSD SELL 200
+2025-06-12 18:11:24,476 - INFO - [DYNAMIC-PIP] No pip values cached for XAUUSD, calculating...
+2025-06-12 18:11:24,477 - INFO - [DYNAMIC-PIP] Attempting to calculate pip values for XAUUSD (ID: 41)
+2025-06-12 18:11:24,477 - WARNING - [PIP-CALC] Quote asset 0 not found for XAUUSD – assuming same as deposit currency
+2025-06-12 18:11:24,477 - INFO - [PIP-CALC] MASTER XAUUSD: Pip value = $100.00000 per lot (no price conversion)
+2025-06-12 18:11:24,477 - WARNING - [PIP-CALC] Quote asset 0 not found for XAUUSD – assuming same as deposit currency
+2025-06-12 18:11:24,477 - INFO - [PIP-CALC] SLAVE XAUUSD: Pip value = $100.00000 per lot (no price conversion)
+2025-06-12 18:11:24,477 - INFO - [DYNAMIC-PIP] Results: Master pip value: 100.0, Slave pip value: 100.0
+2025-06-12 18:11:24,483 - INFO - [DYNAMIC-PIP] Master pip value: $100.00000, Slave pip value: $100.00000
+2025-06-12 18:11:24,484 - INFO - [DYNAMIC-PIP] Risk multiplier: 0.5000
+2025-06-12 18:11:24,484 - INFO - [DEBUG] Using symbol ID 41 for XAUUSD
+2025-06-12 18:11:24,484 - INFO - [DEBUG] Original volume: 200, Adjusted volume: 100
+2025-06-12 18:11:24,484 - INFO - [SUCCESS] Trade copied: XAUUSD SELL 100
+2025-06-12 18:11:24,816 - INFO - [DEBUG] Received message type: 2126
+2025-06-12 18:11:24,816 - INFO - [DEBUG] ProtoOAExecutionEvent received (type 2126)
+2025-06-12 18:11:24,816 - INFO - [DEBUG] Execution event received: ctidTraderAccountId: 41060638
+executionType: ORDER_ACCEPTED
+position {
+  positionId: 132218791
+  tradeData {
+    symbolId: 41
+    volume: 0
+    tradeSide: SELL
+    guaranteedStopLoss: false
+    comment: "Copied from master"
+  }
+  positionStatus: POSITION_STATUS_CREATED
+  swap: 0
+  price: 0.0
+  commission: 0
+  marginRate: 0.0
+  mirroringCommission: 0
+  guaranteedStopLoss: false
+  usedMargin: 0
+  moneyDigits: 2
+}
+order {
+  orderId: 241602309
+  tradeData {
+    symbolId: 41
+    volume: 100
+    tradeSide: SELL
+    openTimestamp: 1749744683578
+    guaranteedStopLoss: false
+    comment: "Copied from master"
+  }
+  orderType: MARKET
+  orderStatus: ORDER_STATUS_ACCEPTED
+  executedVolume: 0
+  utcLastUpdateTimestamp: 1749744683578
+  closingOrder: false
+  clientOrderId: "2980310657088"
+  timeInForce: IMMEDIATE_OR_CANCEL
+  positionId: 132218791
+}
+isServerEvent: false
+
+2025-06-12 18:11:24,817 - INFO - [DEBUG] Ignoring event from account 41060638 (not master)
+2025-06-12 18:11:25,126 - INFO - [DEBUG] Received message type: 2126
+2025-06-12 18:11:25,126 - INFO - [DEBUG] ProtoOAExecutionEvent received (type 2126)
+2025-06-12 18:11:25,127 - INFO - [DEBUG] Execution event received: ctidTraderAccountId: 41060638
+executionType: ORDER_FILLED
+position {
+  positionId: 132218791
+  tradeData {
+    symbolId: 41
+    volume: 100
+    tradeSide: SELL
+    openTimestamp: 1749744683867
+    guaranteedStopLoss: false
+    comment: "Copied from master"
+  }
+  positionStatus: POSITION_STATUS_OPEN
+  swap: 0
+  price: 3388.61
+  utcLastUpdateTimestamp: 1749744683867
+  commission: -8
+  marginRate: 3388.61
+  mirroringCommission: 0
+  guaranteedStopLoss: false
+  usedMargin: 3389
+  moneyDigits: 2
+}
+order {
+  orderId: 241602309
+  tradeData {
+    symbolId: 41
+    volume: 100
+    tradeSide: SELL
+    openTimestamp: 1749744683578
+    guaranteedStopLoss: false
+    comment: "Copied from master"
+  }
+  orderType: MARKET
+  orderStatus: ORDER_STATUS_FILLED
+  executionPrice: 3388.61
+  executedVolume: 100
+  utcLastUpdateTimestamp: 1749744683867
+  closingOrder: false
+  clientOrderId: "2980310657088"
+  timeInForce: IMMEDIATE_OR_CANCEL
+  positionId: 132218791
+}
+deal {
+  dealId: 260665941
+  orderId: 241602309
+  positionId: 132218791
+  volume: 100
+  filledVolume: 100
+  symbolId: 41
+  createTimestamp: 1749744683578
+  executionTimestamp: 1749744683867
+  utcLastUpdateTimestamp: 1749744683867
+  executionPrice: 3388.61
+  tradeSide: SELL
+  dealStatus: FILLED
+  marginRate: 3388.61
+  commission: -8
+  baseToUsdConversionRate: 3388.61
+  moneyDigits: 2
+}
+isServerEvent: false
+
+2025-06-12 18:11:25,127 - INFO - [DEBUG] Ignoring event from account 41060638 (not master)
+2025-06-12 18:11:41,723 - INFO - [DEBUG] Received message type: 2126
+2025-06-12 18:11:41,723 - INFO - [DEBUG] ProtoOAExecutionEvent received (type 2126)
+2025-06-12 18:11:41,724 - INFO - [DEBUG] Execution event received: ctidTraderAccountId: 41060638
+executionType: ORDER_ACCEPTED
+position {
+  positionId: 132218791
+  tradeData {
+    symbolId: 41
+    volume: 100
+    tradeSide: SELL
+    openTimestamp: 1749744683867
+    guaranteedStopLoss: false
+    comment: "Copied from master"
+  }
+  positionStatus: POSITION_STATUS_OPEN
+  swap: 0
+  price: 3388.61
+  utcLastUpdateTimestamp: 1749744683867
+  commission: -8
+  marginRate: 3388.61
+  mirroringCommission: 0
+  guaranteedStopLoss: false
+  usedMargin: 3389
+  moneyDigits: 2
+}
+order {
+  orderId: 241602379
+  tradeData {
+    symbolId: 41
+    volume: 100
+    tradeSide: BUY
+    openTimestamp: 1749744700482
+    guaranteedStopLoss: false
+    comment: "Copied from master"
+  }
+  orderType: MARKET
+  orderStatus: ORDER_STATUS_ACCEPTED
+  executedVolume: 0
+  utcLastUpdateTimestamp: 1749744700482
+  closingOrder: true
+  clientOrderId: "ctd-763488c3c9de4323983e3b56a87e18e9"
+  timeInForce: IMMEDIATE_OR_CANCEL
+  positionId: 132218791
+}
+isServerEvent: false
+
+2025-06-12 18:11:41,725 - INFO - [DEBUG] Ignoring event from account 41060638 (not master)
+2025-06-12 18:11:41,937 - INFO - [DEBUG] Received message type: 2126
+2025-06-12 18:11:41,938 - INFO - [DEBUG] ProtoOAExecutionEvent received (type 2126)
+2025-06-12 18:11:41,939 - INFO - [DEBUG] Execution event received: ctidTraderAccountId: 41060638
+executionType: ORDER_FILLED
+position {
+  positionId: 132218791
+  tradeData {
+    symbolId: 41
+    volume: 0
+    tradeSide: SELL
+    openTimestamp: 1749744683867
+    guaranteedStopLoss: false
+    comment: "Copied from master"
+  }
+  positionStatus: POSITION_STATUS_CLOSED
+  swap: 0
+  price: 0.0
+  utcLastUpdateTimestamp: 1749744700694
+  commission: 0
+  marginRate: 0.0
+  mirroringCommission: 0
+  guaranteedStopLoss: false
+  usedMargin: 0
+  moneyDigits: 2
+}
+order {
+  orderId: 241602379
+  tradeData {
+    symbolId: 41
+    volume: 100
+    tradeSide: BUY
+    openTimestamp: 1749744700482
+    guaranteedStopLoss: false
+    comment: "Copied from master"
+  }
+  orderType: MARKET
+  orderStatus: ORDER_STATUS_FILLED
+  executionPrice: 3388.72
+  executedVolume: 100
+  utcLastUpdateTimestamp: 1749744700694
+  closingOrder: true
+  clientOrderId: "ctd-763488c3c9de4323983e3b56a87e18e9"
+  timeInForce: IMMEDIATE_OR_CANCEL
+  positionId: 132218791
+}
+deal {
+  dealId: 260665971
+  orderId: 241602379
+  positionId: 132218791
+  volume: 100
+  filledVolume: 100
+  symbolId: 41
+  createTimestamp: 1749744700482
+  executionTimestamp: 1749744700694
+  utcLastUpdateTimestamp: 1749744700694
+  executionPrice: 3388.72
+  tradeSide: BUY
+  dealStatus: FILLED
+  marginRate: 3388.65
+  commission: -8
+  baseToUsdConversionRate: 3388.65
+  closePositionDetail {
+    entryPrice: 3388.61
+    grossProfit: -11
+    swap: 0
+    commission: -16
+    balance: 457278
+    quoteToDepositConversionRate: 1.0
+    closedVolume: 100
+    balanceVersion: 34
+    moneyDigits: 2
+    pnlConversionFee: 0
+  }
+  moneyDigits: 2
+}
+isServerEvent: false
+
+2025-06-12 18:11:41,939 - INFO - [DEBUG] Ignoring event from account 41060638 (not master)
+2025-06-12 18:11:50,202 - INFO - [DEBUG] Received message type: 2126
+2025-06-12 18:11:50,204 - INFO - [DEBUG] ProtoOAExecutionEvent received (type 2126)
+2025-06-12 18:11:50,206 - INFO - [DEBUG] Execution event received: ctidTraderAccountId: 41423863
+executionType: ORDER_ACCEPTED
+position {
+  positionId: 506589102
+  tradeData {
+    symbolId: 41
+    volume: 200
+    tradeSide: SELL
+    openTimestamp: 1749744683233
+    guaranteedStopLoss: false
+  }
+  positionStatus: POSITION_STATUS_OPEN
+  swap: 0
+  price: 3388.67
+  utcLastUpdateTimestamp: 1749744683233
+  commission: -20
+  marginRate: 3388.68
+  mirroringCommission: 0
+  guaranteedStopLoss: false
+  usedMargin: 1355
+  moneyDigits: 2
+}
+order {
+  orderId: 845089617
+  tradeData {
+    symbolId: 41
+    volume: 200
+    tradeSide: BUY
+    openTimestamp: 1749744708965
+    guaranteedStopLoss: false
+  }
+  orderType: MARKET
+  orderStatus: ORDER_STATUS_ACCEPTED
+  executedVolume: 0
+  utcLastUpdateTimestamp: 1749744708965
+  closingOrder: true
+  clientOrderId: "ctd-8bec7b6d97ca4ca99d66b858b0ca9029"
+  timeInForce: IMMEDIATE_OR_CANCEL
+  positionId: 506589102
+}
+isServerEvent: false
+
+2025-06-12 18:11:50,209 - INFO - [DEBUG] Processing execution event from master account 41423863
+2025-06-12 18:11:50,209 - INFO - [DEBUG] Execution type: 2
+2025-06-12 18:11:50,212 - INFO - [DEBUG] Execution type '2' not handled for trade copying
+2025-06-12 18:11:50,417 - INFO - [DEBUG] Received message type: 2126
+2025-06-12 18:11:50,418 - INFO - [DEBUG] ProtoOAExecutionEvent received (type 2126)
+2025-06-12 18:11:50,419 - INFO - [DEBUG] Execution event received: ctidTraderAccountId: 41423863
+executionType: ORDER_FILLED
+position {
+  positionId: 506589102
+  tradeData {
+    symbolId: 41
+    volume: 0
+    tradeSide: SELL
+    openTimestamp: 1749744683233
+    guaranteedStopLoss: false
+  }
+  positionStatus: POSITION_STATUS_CLOSED
+  swap: 0
+  price: 0.0
+  utcLastUpdateTimestamp: 1749744709183
+  commission: 0
+  marginRate: 0.0
+  mirroringCommission: 0
+  guaranteedStopLoss: false
+  usedMargin: 0
+  moneyDigits: 2
+}
+order {
+  orderId: 845089617
+  tradeData {
+    symbolId: 41
+    volume: 200
+    tradeSide: BUY
+    openTimestamp: 1749744708965
+    guaranteedStopLoss: false
+  }
+  orderType: MARKET
+  orderStatus: ORDER_STATUS_FILLED
+  executionPrice: 3388.5
+  executedVolume: 200
+  utcLastUpdateTimestamp: 1749744709183
+  closingOrder: true
+  clientOrderId: "ctd-8bec7b6d97ca4ca99d66b858b0ca9029"
+  timeInForce: IMMEDIATE_OR_CANCEL
+  positionId: 506589102
+}
+deal {
+  dealId: 790112960
+  orderId: 845089617
+  positionId: 506589102
+  volume: 200
+  filledVolume: 200
+  symbolId: 41
+  createTimestamp: 1749744708965
+  executionTimestamp: 1749744709183
+  utcLastUpdateTimestamp: 1749744709183
+  executionPrice: 3388.5
+  tradeSide: BUY
+  dealStatus: FILLED
+  marginRate: 3388.54
+  commission: -20
+  baseToUsdConversionRate: 3388.54
+  closePositionDetail {
+    entryPrice: 3388.67
+    grossProfit: 34
+    swap: 0
+    commission: -40
+    balance: 9380065
+    quoteToDepositConversionRate: 1.0
+    closedVolume: 200
+    balanceVersion: 90
+    moneyDigits: 2
+    pnlConversionFee: 0
+  }
+  moneyDigits: 2
+}
+isServerEvent: false
+
+2025-06-12 18:11:50,420 - INFO - [DEBUG] Processing execution event from master account 41423863
+2025-06-12 18:11:50,420 - INFO - [DEBUG] Execution type: 3
+2025-06-12 18:11:50,420 - INFO - [TRADE] Trade detected on master account!
+2025-06-12 18:11:50,420 - INFO - [DEBUG] Is closing order: True
+2025-06-12 18:11:50,421 - INFO - [DEBUG] Deal closePositionDetail check: has_attr=True, value='entryPrice: 3388.67
+grossProfit: 34
+swap: 0
+commission: -40
+balance: 9380065
+quoteToDepositConversionRate: 1.0
+closedVolume: 200
+balanceVersion: 90
+moneyDigits: 2
+pnlConversionFee: 0
+'
+2025-06-12 18:11:50,421 - INFO - [DEBUG] Deal has valid closePositionDetail - this is a position close
+2025-06-12 18:11:50,421 - INFO - [DEBUG] Got trade details from deal
+2025-06-12 18:11:50,422 - INFO - [DEBUG] Trade details - Symbol ID: 41, Side: 1, Volume: 200, Is Closing: True
+2025-06-12 18:11:50,422 - INFO - [CLOSE] Position close detected: XAUUSD
+2025-06-12 18:11:50,422 - INFO - [CLOSE] Closing slave position for XAUUSD
+2025-06-12 18:11:50,817 - INFO - [DEBUG] Received message type: 2125
+2025-06-12 18:11:50,817 - INFO - [DEBUG] Unknown message type: 2125
+2025-06-12 18:11:50,817 - INFO - [DEBUG] Message content: ctidTraderAccountId: 41060638
+
+2025-06-12 18:11:50,818 - INFO - [DEBUG] Got reconcile response for closing
+2025-06-12 18:11:50,818 - WARNING - [WARNING] No matching position found on slave for XAUUSD
+2025-06-12 18:12:16,322 - INFO - [DEBUG] Received message type: 2126
+2025-06-12 18:12:16,322 - INFO - [DEBUG] ProtoOAExecutionEvent received (type 2126)
+2025-06-12 18:12:16,322 - INFO - [DEBUG] Execution event received: ctidTraderAccountId: 41423863
+executionType: ORDER_ACCEPTED
+position {
+  positionId: 506589214
+  tradeData {
+    symbolId: 5
+    volume: 0
+    tradeSide: BUY
+    guaranteedStopLoss: false
+  }
+  positionStatus: POSITION_STATUS_CREATED
+  swap: 0
+  price: 0.0
+  commission: 0
+  marginRate: 0.0
+  mirroringCommission: 0
+  guaranteedStopLoss: false
+  usedMargin: 0
+  moneyDigits: 2
+}
+order {
+  orderId: 845089680
+  tradeData {
+    symbolId: 5
+    volume: 5000000
+    tradeSide: BUY
+    openTimestamp: 1749744735089
+    guaranteedStopLoss: false
+  }
+  orderType: MARKET
+  orderStatus: ORDER_STATUS_ACCEPTED
+  executedVolume: 0
+  utcLastUpdateTimestamp: 1749744735089
+  closingOrder: false
+  clientOrderId: "ctd-463f2da807f042ed81ac269e0839364b"
+  timeInForce: IMMEDIATE_OR_CANCEL
+  positionId: 506589214
+}
+isServerEvent: false
+
+2025-06-12 18:12:16,323 - INFO - [DEBUG] Processing execution event from master account 41423863
+2025-06-12 18:12:16,323 - INFO - [DEBUG] Execution type: 2
+2025-06-12 18:12:16,323 - INFO - [DEBUG] Execution type '2' not handled for trade copying
+2025-06-12 18:12:16,597 - INFO - [DEBUG] Received message type: 2126
+2025-06-12 18:12:16,597 - INFO - [DEBUG] ProtoOAExecutionEvent received (type 2126)
+2025-06-12 18:12:16,598 - INFO - [DEBUG] Execution event received: ctidTraderAccountId: 41423863
+executionType: ORDER_FILLED
+position {
+  positionId: 506589214
+  tradeData {
+    symbolId: 5
+    volume: 5000000
+    tradeSide: BUY
+    openTimestamp: 1749744735360
+    guaranteedStopLoss: false
+  }
+  positionStatus: POSITION_STATUS_OPEN
+  swap: 0
+  price: 0.65274
+  utcLastUpdateTimestamp: 1749744735360
+  commission: -98
+  marginRate: 0.65274
+  mirroringCommission: 0
+  guaranteedStopLoss: false
+  usedMargin: 6527
+  moneyDigits: 2
+}
+order {
+  orderId: 845089680
+  tradeData {
+    symbolId: 5
+    volume: 5000000
+    tradeSide: BUY
+    openTimestamp: 1749744735089
+    guaranteedStopLoss: false
+  }
+  orderType: MARKET
+  orderStatus: ORDER_STATUS_FILLED
+  executionPrice: 0.65274
+  executedVolume: 5000000
+  utcLastUpdateTimestamp: 1749744735360
+  closingOrder: false
+  clientOrderId: "ctd-463f2da807f042ed81ac269e0839364b"
+  timeInForce: IMMEDIATE_OR_CANCEL
+  positionId: 506589214
+}
+deal {
+  dealId: 790113008
+  orderId: 845089680
+  positionId: 506589214
+  volume: 5000000
+  filledVolume: 5000000
+  symbolId: 5
+  createTimestamp: 1749744735089
+  executionTimestamp: 1749744735360
+  utcLastUpdateTimestamp: 1749744735360
+  executionPrice: 0.65274
+  tradeSide: BUY
+  dealStatus: FILLED
+  marginRate: 0.65274
+  commission: -98
+  baseToUsdConversionRate: 0.65274
+  moneyDigits: 2
+}
+isServerEvent: false
+
+2025-06-12 18:12:16,599 - INFO - [DEBUG] Processing execution event from master account 41423863
+2025-06-12 18:12:16,600 - INFO - [DEBUG] Execution type: 3
+2025-06-12 18:12:16,600 - INFO - [TRADE] Trade detected on master account!
+2025-06-12 18:12:16,604 - INFO - [DEBUG] Is closing order: False
+2025-06-12 18:12:16,611 - INFO - [DEBUG] Deal closePositionDetail check: has_attr=True, value=''
+2025-06-12 18:12:16,613 - INFO - [DEBUG] Deal has no valid closePositionDetail - this is a new position
+2025-06-12 18:12:16,615 - INFO - [DEBUG] Got trade details from deal
+2025-06-12 18:12:16,615 - INFO - [DEBUG] Trade details - Symbol ID: 5, Side: 1, Volume: 5000000, Is Closing: False
+2025-06-12 18:12:16,616 - INFO - [OPEN] New position detected: AUDUSD
+2025-06-12 18:12:16,616 - INFO - [COPY] Copying: AUDUSD BUY 5000000
+2025-06-12 18:12:16,616 - INFO - [DYNAMIC-PIP] No pip values cached for AUDUSD, calculating...
+2025-06-12 18:12:16,617 - INFO - [DYNAMIC-PIP] Attempting to calculate pip values for AUDUSD (ID: 5)
+2025-06-12 18:12:16,619 - WARNING - [PIP-CALC] Quote asset 0 not found for AUDUSD – assuming same as deposit currency
+2025-06-12 18:12:16,619 - INFO - [PIP-CALC] MASTER AUDUSD: Pip value = $1000.00000 per lot (no price conversion)
+2025-06-12 18:12:16,619 - WARNING - [PIP-CALC] Quote asset 0 not found for AUDUSD – assuming same as deposit currency
+2025-06-12 18:12:16,620 - INFO - [PIP-CALC] SLAVE AUDUSD: Pip value = $1000.00000 per lot (no price conversion)
+2025-06-12 18:12:16,620 - INFO - [DYNAMIC-PIP] Results: Master pip value: 1000.0, Slave pip value: 1000.0
+2025-06-12 18:12:16,627 - INFO - [DYNAMIC-PIP] Master pip value: $1000.00000, Slave pip value: $1000.00000
+2025-06-12 18:12:16,627 - INFO - [DYNAMIC-PIP] Risk multiplier: 0.5000
+2025-06-12 18:12:16,627 - INFO - [DEBUG] Using symbol ID 5 for AUDUSD
+2025-06-12 18:12:16,627 - INFO - [DEBUG] Original volume: 5000000, Adjusted volume: 2500000
+2025-06-12 18:12:16,628 - INFO - [SUCCESS] Trade copied: AUDUSD BUY 2500000
+2025-06-12 18:12:16,816 - INFO - [DEBUG] Received message type: 2126
+2025-06-12 18:12:16,817 - INFO - [DEBUG] ProtoOAExecutionEvent received (type 2126)
+2025-06-12 18:12:16,817 - INFO - [DEBUG] Execution event received: ctidTraderAccountId: 41060638
+executionType: ORDER_ACCEPTED
+position {
+  positionId: 132218980
+  tradeData {
+    symbolId: 5
+    volume: 0
+    tradeSide: BUY
+    guaranteedStopLoss: false
+    comment: "Copied from master"
+  }
+  positionStatus: POSITION_STATUS_CREATED
+  swap: 0
+  price: 0.0
+  commission: 0
+  marginRate: 0.0
+  mirroringCommission: 0
+  guaranteedStopLoss: false
+  usedMargin: 0
+  moneyDigits: 2
+}
+order {
+  orderId: 241602575
+  tradeData {
+    symbolId: 5
+    volume: 2500000
+    tradeSide: BUY
+    openTimestamp: 1749744735573
+    guaranteedStopLoss: false
+    comment: "Copied from master"
+  }
+  orderType: MARKET
+  orderStatus: ORDER_STATUS_ACCEPTED
+  executedVolume: 0
+  utcLastUpdateTimestamp: 1749744735573
+  closingOrder: false
+  clientOrderId: "2980310661648"
+  timeInForce: IMMEDIATE_OR_CANCEL
+  positionId: 132218980
+}
+isServerEvent: false
+
+2025-06-12 18:12:16,818 - INFO - [DEBUG] Ignoring event from account 41060638 (not master)
+2025-06-12 18:12:17,020 - INFO - [DEBUG] Received message type: 2126
+2025-06-12 18:12:17,021 - INFO - [DEBUG] ProtoOAExecutionEvent received (type 2126)
+2025-06-12 18:12:17,023 - INFO - [DEBUG] Execution event received: ctidTraderAccountId: 41060638
+executionType: ORDER_FILLED
+position {
+  positionId: 132218980
+  tradeData {
+    symbolId: 5
+    volume: 2500000
+    tradeSide: BUY
+    openTimestamp: 1749744735784
+    guaranteedStopLoss: false
+    comment: "Copied from master"
+  }
+  positionStatus: POSITION_STATUS_OPEN
+  swap: 0
+  price: 0.65275
+  utcLastUpdateTimestamp: 1749744735784
+  commission: -73
+  marginRate: 0.65275
+  mirroringCommission: 0
+  guaranteedStopLoss: false
+  usedMargin: 16319
+  moneyDigits: 2
+}
+order {
+  orderId: 241602575
+  tradeData {
+    symbolId: 5
+    volume: 2500000
+    tradeSide: BUY
+    openTimestamp: 1749744735573
+    guaranteedStopLoss: false
+    comment: "Copied from master"
+  }
+  orderType: MARKET
+  orderStatus: ORDER_STATUS_FILLED
+  executionPrice: 0.65275
+  executedVolume: 2500000
+  utcLastUpdateTimestamp: 1749744735784
+  closingOrder: false
+  clientOrderId: "2980310661648"
+  timeInForce: IMMEDIATE_OR_CANCEL
+  positionId: 132218980
+}
+deal {
+  dealId: 260666074
+  orderId: 241602575
+  positionId: 132218980
+  volume: 2500000
+  filledVolume: 2500000
+  symbolId: 5
+  createTimestamp: 1749744735573
+  executionTimestamp: 1749744735784
+  utcLastUpdateTimestamp: 1749744735784
+  executionPrice: 0.65275
+  tradeSide: BUY
+  dealStatus: FILLED
+  marginRate: 0.65275
+  commission: -73
+  baseToUsdConversionRate: 0.65275
+  moneyDigits: 2
+}
+isServerEvent: false
+
+2025-06-12 18:12:17,028 - INFO - [DEBUG] Ignoring event from account 41060638 (not master)
+2025-06-12 18:12:40,839 - INFO - [DEBUG] Received message type: 2126
+2025-06-12 18:12:40,840 - INFO - [DEBUG] ProtoOAExecutionEvent received (type 2126)
+2025-06-12 18:12:40,840 - INFO - [DEBUG] Execution event received: ctidTraderAccountId: 41423863
+executionType: ORDER_ACCEPTED
+position {
+  positionId: 506589214
+  tradeData {
+    symbolId: 5
+    volume: 5000000
+    tradeSide: BUY
+    openTimestamp: 1749744735360
+    guaranteedStopLoss: false
+  }
+  positionStatus: POSITION_STATUS_OPEN
+  swap: 0
+  price: 0.65274
+  utcLastUpdateTimestamp: 1749744735360
+  commission: -98
+  marginRate: 0.65274
+  mirroringCommission: 0
+  guaranteedStopLoss: false
+  usedMargin: 6527
+  moneyDigits: 2
+}
+order {
+  orderId: 845090011
+  tradeData {
+    symbolId: 5
+    volume: 5000000
+    tradeSide: SELL
+    openTimestamp: 1749744759598
+    guaranteedStopLoss: false
+  }
+  orderType: MARKET
+  orderStatus: ORDER_STATUS_ACCEPTED
+  executedVolume: 0
+  utcLastUpdateTimestamp: 1749744759598
+  closingOrder: true
+  clientOrderId: "ctd-5d2ca53f9ed24e6e9adbaa74018b4e85"
+  timeInForce: IMMEDIATE_OR_CANCEL
+  positionId: 506589214
+}
+isServerEvent: false
+
+2025-06-12 18:12:40,841 - INFO - [DEBUG] Processing execution event from master account 41423863
+2025-06-12 18:12:40,841 - INFO - [DEBUG] Execution type: 2
+2025-06-12 18:12:40,842 - INFO - [DEBUG] Execution type '2' not handled for trade copying
+2025-06-12 18:12:41,065 - INFO - [DEBUG] Received message type: 2126
+2025-06-12 18:12:41,065 - INFO - [DEBUG] ProtoOAExecutionEvent received (type 2126)
+2025-06-12 18:12:41,066 - INFO - [DEBUG] Execution event received: ctidTraderAccountId: 41423863
+executionType: ORDER_FILLED
+position {
+  positionId: 506589214
+  tradeData {
+    symbolId: 5
+    volume: 0
+    tradeSide: BUY
+    openTimestamp: 1749744735360
+    guaranteedStopLoss: false
+  }
+  positionStatus: POSITION_STATUS_CLOSED
+  swap: 0
+  price: 0.0
+  utcLastUpdateTimestamp: 1749744759827
+  commission: 0
+  marginRate: 0.0
+  mirroringCommission: 0
+  guaranteedStopLoss: false
+  usedMargin: 0
+  moneyDigits: 2
+}
+order {
+  orderId: 845090011
+  tradeData {
+    symbolId: 5
+    volume: 5000000
+    tradeSide: SELL
+    openTimestamp: 1749744759598
+    guaranteedStopLoss: false
+  }
+  orderType: MARKET
+  orderStatus: ORDER_STATUS_FILLED
+  executionPrice: 0.65264
+  executedVolume: 5000000
+  utcLastUpdateTimestamp: 1749744759827
+  closingOrder: true
+  clientOrderId: "ctd-5d2ca53f9ed24e6e9adbaa74018b4e85"
+  timeInForce: IMMEDIATE_OR_CANCEL
+  positionId: 506589214
+}
+deal {
+  dealId: 790113340
+  orderId: 845090011
+  positionId: 506589214
+  volume: 5000000
+  filledVolume: 5000000
+  symbolId: 5
+  createTimestamp: 1749744759598
+  executionTimestamp: 1749744759827
+  utcLastUpdateTimestamp: 1749744759827
+  executionPrice: 0.65264
+  tradeSide: SELL
+  dealStatus: FILLED
+  marginRate: 0.65264
+  commission: -98
+  baseToUsdConversionRate: 0.65264
+  closePositionDetail {
+    entryPrice: 0.65274
+    grossProfit: -500
+    swap: 0
+    commission: -196
+    balance: 9379369
+    quoteToDepositConversionRate: 1.0
+    closedVolume: 5000000
+    balanceVersion: 91
+    moneyDigits: 2
+    pnlConversionFee: 0
+  }
+  moneyDigits: 2
+}
+isServerEvent: false
+
+2025-06-12 18:12:41,068 - INFO - [DEBUG] Processing execution event from master account 41423863
+2025-06-12 18:12:41,068 - INFO - [DEBUG] Execution type: 3
+2025-06-12 18:12:41,068 - INFO - [TRADE] Trade detected on master account!
+2025-06-12 18:12:41,069 - INFO - [DEBUG] Is closing order: True
+2025-06-12 18:12:41,069 - INFO - [DEBUG] Deal closePositionDetail check: has_attr=True, value='entryPrice: 0.65274
+grossProfit: -500
+swap: 0
+commission: -196
+balance: 9379369
+quoteToDepositConversionRate: 1.0
+closedVolume: 5000000
+balanceVersion: 91
+moneyDigits: 2
+pnlConversionFee: 0
+'
+2025-06-12 18:12:41,069 - INFO - [DEBUG] Deal has valid closePositionDetail - this is a position close
+2025-06-12 18:12:41,070 - INFO - [DEBUG] Got trade details from deal
+2025-06-12 18:12:41,070 - INFO - [DEBUG] Trade details - Symbol ID: 5, Side: 2, Volume: 5000000, Is Closing: True
+2025-06-12 18:12:41,070 - INFO - [CLOSE] Position close detected: AUDUSD
+2025-06-12 18:12:41,072 - INFO - [CLOSE] Closing slave position for AUDUSD
+2025-06-12 18:12:41,814 - INFO - [DEBUG] Received message type: 2125
+2025-06-12 18:12:41,814 - INFO - [DEBUG] Unknown message type: 2125
+2025-06-12 18:12:41,814 - INFO - [DEBUG] Message content: ctidTraderAccountId: 41060638
+position {
+  positionId: 132218980
+  tradeData {
+    symbolId: 5
+    volume: 2500000
+    tradeSide: BUY
+    openTimestamp: 1749744735784
+    guaranteedStopLoss: false
+    comment: "Copied from master"
+  }
+  positionStatus: POSITION_STATUS_OPEN
+  swap: 0
+  price: 0.65275
+  utcLastUpdateTimestamp: 1749744735784
+  commission: -73
+  marginRate: 0.65275
+  mirroringCommission: 0
+  guaranteedStopLoss: false
+  usedMargin: 16319
+  moneyDigits: 2
+}
+
+2025-06-12 18:12:41,815 - INFO - [DEBUG] Got reconcile response for closing
+2025-06-12 18:12:41,815 - INFO - [CLOSE] Closing position 132218980 for AUDUSD with volume 2500000
+2025-06-12 18:12:41,816 - INFO - [SUCCESS] Position close request sent for AUDUSD
+2025-06-12 18:12:42,817 - INFO - [DEBUG] Received message type: 2126
+2025-06-12 18:12:42,818 - INFO - [DEBUG] ProtoOAExecutionEvent received (type 2126)
+2025-06-12 18:12:42,819 - INFO - [DEBUG] Execution event received: ctidTraderAccountId: 41060638
+executionType: ORDER_ACCEPTED
+position {
+  positionId: 132218980
+  tradeData {
+    symbolId: 5
+    volume: 2500000
+    tradeSide: BUY
+    openTimestamp: 1749744735784
+    guaranteedStopLoss: false
+    comment: "Copied from master"
+  }
+  positionStatus: POSITION_STATUS_OPEN
+  swap: 0
+  price: 0.65275
+  utcLastUpdateTimestamp: 1749744735784
+  commission: -73
+  marginRate: 0.65275
+  mirroringCommission: 0
+  guaranteedStopLoss: false
+  usedMargin: 16319
+  moneyDigits: 2
+}
+order {
+  orderId: 241602743
+  tradeData {
+    symbolId: 5
+    volume: 2500000
+    tradeSide: SELL
+    openTimestamp: 1749744761584
+    guaranteedStopLoss: false
+    comment: "Copied from master"
+  }
+  orderType: MARKET
+  orderStatus: ORDER_STATUS_ACCEPTED
+  executedVolume: 0
+  utcLastUpdateTimestamp: 1749744761584
+  closingOrder: true
+  clientOrderId: "2980310648064"
+  timeInForce: IMMEDIATE_OR_CANCEL
+  positionId: 132218980
+}
+isServerEvent: false
+
+2025-06-12 18:12:42,819 - INFO - [DEBUG] Ignoring event from account 41060638 (not master)
+2025-06-12 18:12:43,060 - INFO - [DEBUG] Received message type: 2126
+2025-06-12 18:12:43,060 - INFO - [DEBUG] ProtoOAExecutionEvent received (type 2126)
+2025-06-12 18:12:43,063 - INFO - [DEBUG] Execution event received: ctidTraderAccountId: 41060638
+executionType: ORDER_FILLED
+position {
+  positionId: 132218980
+  tradeData {
+    symbolId: 5
+    volume: 0
+    tradeSide: BUY
+    openTimestamp: 1749744735784
+    guaranteedStopLoss: false
+    comment: "Copied from master"
+  }
+  positionStatus: POSITION_STATUS_CLOSED
+  swap: 0
+  price: 0.0
+  utcLastUpdateTimestamp: 1749744761823
+  commission: 0
+  marginRate: 0.0
+  mirroringCommission: 0
+  guaranteedStopLoss: false
+  usedMargin: 0
+  moneyDigits: 2
+}
+order {
+  orderId: 241602743
+  tradeData {
+    symbolId: 5
+    volume: 2500000
+    tradeSide: SELL
+    openTimestamp: 1749744761584
+    guaranteedStopLoss: false
+    comment: "Copied from master"
+  }
+  orderType: MARKET
+  orderStatus: ORDER_STATUS_FILLED
+  executionPrice: 0.65264
+  executedVolume: 2500000
+  utcLastUpdateTimestamp: 1749744761823
+  closingOrder: true
+  clientOrderId: "2980310648064"
+  timeInForce: IMMEDIATE_OR_CANCEL
+  positionId: 132218980
+}
+deal {
+  dealId: 260666230
+  orderId: 241602743
+  positionId: 132218980
+  volume: 2500000
+  filledVolume: 2500000
+  symbolId: 5
+  createTimestamp: 1749744761584
+  executionTimestamp: 1749744761823
+  utcLastUpdateTimestamp: 1749744761823
+  executionPrice: 0.65264
+  tradeSide: SELL
+  dealStatus: FILLED
+  marginRate: 0.65264
+  commission: -73
+  baseToUsdConversionRate: 0.65264
+  closePositionDetail {
+    entryPrice: 0.65275
+    grossProfit: -275
+    swap: 0
+    commission: -146
+    balance: 456857
+    quoteToDepositConversionRate: 1.0
+    closedVolume: 2500000
+    balanceVersion: 35
+    moneyDigits: 2
+    pnlConversionFee: 0
+  }
+  moneyDigits: 2
+}
+isServerEvent: false
+
+2025-06-12 18:12:43,063 - INFO - [DEBUG] Ignoring event from account 41060638 (not master)
+2025-06-12 18:12:47,879 - INFO - [DEBUG] Received message type: 2126
+2025-06-12 18:12:47,880 - INFO - [DEBUG] ProtoOAExecutionEvent received (type 2126)
+2025-06-12 18:12:47,880 - INFO - [DEBUG] Execution event received: ctidTraderAccountId: 41423863
+executionType: ORDER_ACCEPTED
+position {
+  positionId: 506589278
+  tradeData {
+    symbolId: 5
+    volume: 0
+    tradeSide: BUY
+    guaranteedStopLoss: false
+  }
+  positionStatus: POSITION_STATUS_CREATED
+  swap: 0
+  price: 0.0
+  commission: 0
+  marginRate: 0.0
+  mirroringCommission: 0
+  guaranteedStopLoss: false
+  usedMargin: 0
+  moneyDigits: 2
+}
+order {
+  orderId: 845090025
+  tradeData {
+    symbolId: 5
+    volume: 5000000
+    tradeSide: BUY
+    openTimestamp: 1749744766644
+    guaranteedStopLoss: false
+  }
+  orderType: MARKET
+  orderStatus: ORDER_STATUS_ACCEPTED
+  executedVolume: 0
+  utcLastUpdateTimestamp: 1749744766644
+  closingOrder: false
+  clientOrderId: "ctd-488d413367b74b6a9c4dd162fd4f661d"
+  timeInForce: IMMEDIATE_OR_CANCEL
+  positionId: 506589278
+}
+isServerEvent: false
+
+2025-06-12 18:12:47,881 - INFO - [DEBUG] Processing execution event from master account 41423863
+2025-06-12 18:12:47,881 - INFO - [DEBUG] Execution type: 2
+2025-06-12 18:12:47,881 - INFO - [DEBUG] Execution type '2' not handled for trade copying
+2025-06-12 18:12:48,144 - INFO - [DEBUG] Received message type: 2126
+2025-06-12 18:12:48,145 - INFO - [DEBUG] ProtoOAExecutionEvent received (type 2126)
+2025-06-12 18:12:48,147 - INFO - [DEBUG] Execution event received: ctidTraderAccountId: 41423863
+executionType: ORDER_FILLED
+position {
+  positionId: 506589278
+  tradeData {
+    symbolId: 5
+    volume: 5000000
+    tradeSide: BUY
+    openTimestamp: 1749744766909
+    guaranteedStopLoss: false
+  }
+  positionStatus: POSITION_STATUS_OPEN
+  swap: 0
+  price: 0.65264
+  utcLastUpdateTimestamp: 1749744766909
+  commission: -98
+  marginRate: 0.65264
+  mirroringCommission: 0
+  guaranteedStopLoss: false
+  usedMargin: 6526
+  moneyDigits: 2
+}
+order {
+  orderId: 845090025
+  tradeData {
+    symbolId: 5
+    volume: 5000000
+    tradeSide: BUY
+    openTimestamp: 1749744766644
+    guaranteedStopLoss: false
+  }
+  orderType: MARKET
+  orderStatus: ORDER_STATUS_FILLED
+  executionPrice: 0.65264
+  executedVolume: 5000000
+  utcLastUpdateTimestamp: 1749744766909
+  closingOrder: false
+  clientOrderId: "ctd-488d413367b74b6a9c4dd162fd4f661d"
+  timeInForce: IMMEDIATE_OR_CANCEL
+  positionId: 506589278
+}
+deal {
+  dealId: 790113348
+  orderId: 845090025
+  positionId: 506589278
+  volume: 5000000
+  filledVolume: 5000000
+  symbolId: 5
+  createTimestamp: 1749744766644
+  executionTimestamp: 1749744766909
+  utcLastUpdateTimestamp: 1749744766909
+  executionPrice: 0.65264
+  tradeSide: BUY
+  dealStatus: FILLED
+  marginRate: 0.65264
+  commission: -98
+  baseToUsdConversionRate: 0.65264
+  moneyDigits: 2
+}
+isServerEvent: false
+
+2025-06-12 18:12:48,148 - INFO - [DEBUG] Processing execution event from master account 41423863
+2025-06-12 18:12:48,150 - INFO - [DEBUG] Execution type: 3
+2025-06-12 18:12:48,154 - INFO - [TRADE] Trade detected on master account!
+2025-06-12 18:12:48,156 - INFO - [DEBUG] Is closing order: False
+2025-06-12 18:12:48,156 - INFO - [DEBUG] Deal closePositionDetail check: has_attr=True, value=''
+2025-06-12 18:12:48,158 - INFO - [DEBUG] Deal has no valid closePositionDetail - this is a new position
+2025-06-12 18:12:48,158 - INFO - [DEBUG] Got trade details from deal
+2025-06-12 18:12:48,163 - INFO - [DEBUG] Trade details - Symbol ID: 5, Side: 1, Volume: 5000000, Is Closing: False
+2025-06-12 18:12:48,164 - INFO - [OPEN] New position detected: AUDUSD
+2025-06-12 18:12:48,165 - INFO - [COPY] Copying: AUDUSD BUY 5000000
+2025-06-12 18:12:48,180 - INFO - [DYNAMIC-PIP] Master pip value: $1000.00000, Slave pip value: $1000.00000
+2025-06-12 18:12:48,180 - INFO - [DYNAMIC-PIP] Risk multiplier: 0.5000
+2025-06-12 18:12:48,181 - INFO - [DEBUG] Using symbol ID 5 for AUDUSD
+2025-06-12 18:12:48,181 - INFO - [DEBUG] Original volume: 5000000, Adjusted volume: 2500000
+2025-06-12 18:12:48,182 - INFO - [SUCCESS] Trade copied: AUDUSD BUY 2500000
+2025-06-12 18:12:48,811 - INFO - [DEBUG] Received message type: 2126
+2025-06-12 18:12:48,813 - INFO - [DEBUG] ProtoOAExecutionEvent received (type 2126)
+2025-06-12 18:12:48,814 - INFO - [DEBUG] Execution event received: ctidTraderAccountId: 41060638
+executionType: ORDER_ACCEPTED
+position {
+  positionId: 132219080
+  tradeData {
+    symbolId: 5
+    volume: 0
+    tradeSide: BUY
+    guaranteedStopLoss: false
+    comment: "Copied from master"
+  }
+  positionStatus: POSITION_STATUS_CREATED
+  swap: 0
+  price: 0.0
+  commission: 0
+  marginRate: 0.0
+  mirroringCommission: 0
+  guaranteedStopLoss: false
+  usedMargin: 0
+  moneyDigits: 2
+}
+order {
+  orderId: 241602758
+  tradeData {
+    symbolId: 5
+    volume: 2500000
+    tradeSide: BUY
+    openTimestamp: 1749744767571
+    guaranteedStopLoss: false
+    comment: "Copied from master"
+  }
+  orderType: MARKET
+  orderStatus: ORDER_STATUS_ACCEPTED
+  executedVolume: 0
+  utcLastUpdateTimestamp: 1749744767571
+  closingOrder: false
+  clientOrderId: "2980310647920"
+  timeInForce: IMMEDIATE_OR_CANCEL
+  positionId: 132219080
+}
+isServerEvent: false
+
+2025-06-12 18:12:48,815 - INFO - [DEBUG] Ignoring event from account 41060638 (not master)
+2025-06-12 18:12:49,043 - INFO - [DEBUG] Received message type: 2126
+2025-06-12 18:12:49,044 - INFO - [DEBUG] ProtoOAExecutionEvent received (type 2126)
+2025-06-12 18:12:49,044 - INFO - [DEBUG] Execution event received: ctidTraderAccountId: 41060638
+executionType: ORDER_FILLED
+position {
+  positionId: 132219080
+  tradeData {
+    symbolId: 5
+    volume: 2500000
+    tradeSide: BUY
+    openTimestamp: 1749744767800
+    guaranteedStopLoss: false
+    comment: "Copied from master"
+  }
+  positionStatus: POSITION_STATUS_OPEN
+  swap: 0
+  price: 0.65266
+  utcLastUpdateTimestamp: 1749744767800
+  commission: -73
+  marginRate: 0.65266
+  mirroringCommission: 0
+  guaranteedStopLoss: false
+  usedMargin: 16317
+  moneyDigits: 2
+}
+order {
+  orderId: 241602758
+  tradeData {
+    symbolId: 5
+    volume: 2500000
+    tradeSide: BUY
+    openTimestamp: 1749744767571
+    guaranteedStopLoss: false
+    comment: "Copied from master"
+  }
+  orderType: MARKET
+  orderStatus: ORDER_STATUS_FILLED
+  executionPrice: 0.65266
+  executedVolume: 2500000
+  utcLastUpdateTimestamp: 1749744767800
+  closingOrder: false
+  clientOrderId: "2980310647920"
+  timeInForce: IMMEDIATE_OR_CANCEL
+  positionId: 132219080
+}
+deal {
+  dealId: 260666249
+  orderId: 241602758
+  positionId: 132219080
+  volume: 2500000
+  filledVolume: 2500000
+  symbolId: 5
+  createTimestamp: 1749744767571
+  executionTimestamp: 1749744767800
+  utcLastUpdateTimestamp: 1749744767800
+  executionPrice: 0.65266
+  tradeSide: BUY
+  dealStatus: FILLED
+  marginRate: 0.65266
+  commission: -73
+  baseToUsdConversionRate: 0.65266
+  moneyDigits: 2
+}
+isServerEvent: false
+
+2025-06-12 18:12:49,045 - INFO - [DEBUG] Ignoring event from account 41060638 (not master)
+2025-06-12 18:14:59,921 - INFO - [DEBUG] Received message type: 2126
+2025-06-12 18:14:59,922 - INFO - [DEBUG] ProtoOAExecutionEvent received (type 2126)
+2025-06-12 18:14:59,924 - INFO - [DEBUG] Execution event received: ctidTraderAccountId: 41423863
+executionType: ORDER_ACCEPTED
+position {
+  positionId: 506589278
+  tradeData {
+    symbolId: 5
+    volume: 5000000
+    tradeSide: BUY
+    openTimestamp: 1749744766909
+    guaranteedStopLoss: false
+  }
+  positionStatus: POSITION_STATUS_OPEN
+  swap: 0
+  price: 0.65264
+  utcLastUpdateTimestamp: 1749744766909
+  commission: -98
+  marginRate: 0.65264
+  mirroringCommission: 0
+  guaranteedStopLoss: false
+  usedMargin: 6526
+  moneyDigits: 2
+}
+order {
+  orderId: 845090714
+  tradeData {
+    symbolId: 5
+    volume: 2500000
+    tradeSide: SELL
+    openTimestamp: 1749744898686
+    guaranteedStopLoss: false
+  }
+  orderType: MARKET
+  orderStatus: ORDER_STATUS_ACCEPTED
+  executedVolume: 0
+  utcLastUpdateTimestamp: 1749744898686
+  closingOrder: true
+  clientOrderId: "ctd-fe376b48a93c4b5d8036aa6e3d155ef9"
+  timeInForce: IMMEDIATE_OR_CANCEL
+  positionId: 506589278
+}
+isServerEvent: false
+
+2025-06-12 18:14:59,924 - INFO - [DEBUG] Processing execution event from master account 41423863
+2025-06-12 18:14:59,924 - INFO - [DEBUG] Execution type: 2
+2025-06-12 18:14:59,925 - INFO - [DEBUG] Execution type '2' not handled for trade copying
+2025-06-12 18:15:00,165 - INFO - [DEBUG] Received message type: 2126
+2025-06-12 18:15:00,166 - INFO - [DEBUG] ProtoOAExecutionEvent received (type 2126)
+2025-06-12 18:15:00,167 - INFO - [DEBUG] Execution event received: ctidTraderAccountId: 41423863
+executionType: ORDER_FILLED
+position {
+  positionId: 506589278
+  tradeData {
+    symbolId: 5
+    volume: 2500000
+    tradeSide: BUY
+    openTimestamp: 1749744766909
+    guaranteedStopLoss: false
+  }
+  positionStatus: POSITION_STATUS_OPEN
+  swap: 0
+  price: 0.65264
+  utcLastUpdateTimestamp: 1749744898931
+  commission: -49
+  marginRate: 0.65264
+  mirroringCommission: 0
+  guaranteedStopLoss: false
+  usedMargin: 3263
+  moneyDigits: 2
+}
+order {
+  orderId: 845090714
+  tradeData {
+    symbolId: 5
+    volume: 2500000
+    tradeSide: SELL
+    openTimestamp: 1749744898686
+    guaranteedStopLoss: false
+  }
+  orderType: MARKET
+  orderStatus: ORDER_STATUS_FILLED
+  executionPrice: 0.65271
+  executedVolume: 2500000
+  utcLastUpdateTimestamp: 1749744898931
+  closingOrder: true
+  clientOrderId: "ctd-fe376b48a93c4b5d8036aa6e3d155ef9"
+  timeInForce: IMMEDIATE_OR_CANCEL
+  positionId: 506589278
+}
+deal {
+  dealId: 790113920
+  orderId: 845090714
+  positionId: 506589278
+  volume: 2500000
+  filledVolume: 2500000
+  symbolId: 5
+  createTimestamp: 1749744898686
+  executionTimestamp: 1749744898931
+  utcLastUpdateTimestamp: 1749744898931
+  executionPrice: 0.65271
+  tradeSide: SELL
+  dealStatus: FILLED
+  marginRate: 0.65271
+  commission: -49
+  baseToUsdConversionRate: 0.65271
+  closePositionDetail {
+    entryPrice: 0.65264
+    grossProfit: 175
+    swap: 0
+    commission: -98
+    balance: 9379446
+    quoteToDepositConversionRate: 1.0
+    closedVolume: 2500000
+    balanceVersion: 92
+    moneyDigits: 2
+    pnlConversionFee: 0
+  }
+  moneyDigits: 2
+}
+isServerEvent: false
+
+2025-06-12 18:15:00,168 - INFO - [DEBUG] Processing execution event from master account 41423863
+2025-06-12 18:15:00,168 - INFO - [DEBUG] Execution type: 3
+2025-06-12 18:15:00,169 - INFO - [TRADE] Trade detected on master account!
+2025-06-12 18:15:00,169 - INFO - [DEBUG] Is closing order: True
+2025-06-12 18:15:00,170 - INFO - [DEBUG] Deal closePositionDetail check: has_attr=True, value='entryPrice: 0.65264
+grossProfit: 175
+swap: 0
+commission: -98
+balance: 9379446
+quoteToDepositConversionRate: 1.0
+closedVolume: 2500000
+balanceVersion: 92
+moneyDigits: 2
+pnlConversionFee: 0
+'
+2025-06-12 18:15:00,170 - INFO - [DEBUG] Deal has valid closePositionDetail - this is a position close
+2025-06-12 18:15:00,171 - INFO - [DEBUG] Got trade details from deal
+2025-06-12 18:15:00,171 - INFO - [DEBUG] Trade details - Symbol ID: 5, Side: 2, Volume: 2500000, Is Closing: True
+2025-06-12 18:15:00,171 - INFO - [CLOSE] Position close detected: AUDUSD
+2025-06-12 18:15:00,171 - INFO - [CLOSE] Closing slave position for AUDUSD
+2025-06-12 18:15:00,815 - INFO - [DEBUG] Received message type: 2125
+2025-06-12 18:15:00,817 - INFO - [DEBUG] Unknown message type: 2125
+2025-06-12 18:15:00,818 - INFO - [DEBUG] Message content: ctidTraderAccountId: 41060638
+position {
+  positionId: 132219080
+  tradeData {
+    symbolId: 5
+    volume: 2500000
+    tradeSide: BUY
+    openTimestamp: 1749744767800
+    guaranteedStopLoss: false
+    comment: "Copied from master"
+  }
+  positionStatus: POSITION_STATUS_OPEN
+  swap: 0
+  price: 0.65266
+  utcLastUpdateTimestamp: 1749744767800
+  commission: -73
+  marginRate: 0.65266
+  mirroringCommission: 0
+  guaranteedStopLoss: false
+  usedMargin: 16317
+  moneyDigits: 2
+}
+
+2025-06-12 18:15:00,820 - INFO - [DEBUG] Got reconcile response for closing
+2025-06-12 18:15:00,821 - INFO - [CLOSE] Closing position 132219080 for AUDUSD with volume 2500000
+2025-06-12 18:15:00,823 - INFO - [SUCCESS] Position close request sent for AUDUSD
+2025-06-12 18:15:01,824 - INFO - [DEBUG] Received message type: 2126
+2025-06-12 18:15:01,824 - INFO - [DEBUG] ProtoOAExecutionEvent received (type 2126)
+2025-06-12 18:15:01,826 - INFO - [DEBUG] Execution event received: ctidTraderAccountId: 41060638
+executionType: ORDER_ACCEPTED
+position {
+  positionId: 132219080
+  tradeData {
+    symbolId: 5
+    volume: 2500000
+    tradeSide: BUY
+    openTimestamp: 1749744767800
+    guaranteedStopLoss: false
+    comment: "Copied from master"
+  }
+  positionStatus: POSITION_STATUS_OPEN
+  swap: 0
+  price: 0.65266
+  utcLastUpdateTimestamp: 1749744767800
+  commission: -73
+  marginRate: 0.65266
+  mirroringCommission: 0
+  guaranteedStopLoss: false
+  usedMargin: 16317
+  moneyDigits: 2
+}
+order {
+  orderId: 241603360
+  tradeData {
+    symbolId: 5
+    volume: 2500000
+    tradeSide: SELL
+    openTimestamp: 1749744900582
+    guaranteedStopLoss: false
+    comment: "Copied from master"
+  }
+  orderType: MARKET
+  orderStatus: ORDER_STATUS_ACCEPTED
+  executedVolume: 0
+  utcLastUpdateTimestamp: 1749744900582
+  closingOrder: true
+  clientOrderId: "2980310661504"
+  timeInForce: IMMEDIATE_OR_CANCEL
+  positionId: 132219080
+}
+isServerEvent: false
+
+2025-06-12 18:15:01,826 - INFO - [DEBUG] Ignoring event from account 41060638 (not master)
+2025-06-12 18:15:02,040 - INFO - [DEBUG] Received message type: 2126
+2025-06-12 18:15:02,041 - INFO - [DEBUG] ProtoOAExecutionEvent received (type 2126)
+2025-06-12 18:15:02,043 - INFO - [DEBUG] Execution event received: ctidTraderAccountId: 41060638
+executionType: ORDER_FILLED
+position {
+  positionId: 132219080
+  tradeData {
+    symbolId: 5
+    volume: 0
+    tradeSide: BUY
+    openTimestamp: 1749744767800
+    guaranteedStopLoss: false
+    comment: "Copied from master"
+  }
+  positionStatus: POSITION_STATUS_CLOSED
+  swap: 0
+  price: 0.0
+  utcLastUpdateTimestamp: 1749744900785
+  commission: 0
+  marginRate: 0.0
+  mirroringCommission: 0
+  guaranteedStopLoss: false
+  usedMargin: 0
+  moneyDigits: 2
+}
+order {
+  orderId: 241603360
+  tradeData {
+    symbolId: 5
+    volume: 2500000
+    tradeSide: SELL
+    openTimestamp: 1749744900582
+    guaranteedStopLoss: false
+    comment: "Copied from master"
+  }
+  orderType: MARKET
+  orderStatus: ORDER_STATUS_FILLED
+  executionPrice: 0.6527
+  executedVolume: 2500000
+  utcLastUpdateTimestamp: 1749744900785
+  closingOrder: true
+  clientOrderId: "2980310661504"
+  timeInForce: IMMEDIATE_OR_CANCEL
+  positionId: 132219080
+}
+deal {
+  dealId: 260666600
+  orderId: 241603360
+  positionId: 132219080
+  volume: 2500000
+  filledVolume: 2500000
+  symbolId: 5
+  createTimestamp: 1749744900582
+  executionTimestamp: 1749744900785
+  utcLastUpdateTimestamp: 1749744900785
+  executionPrice: 0.6527
+  tradeSide: SELL
+  dealStatus: FILLED
+  marginRate: 0.6527
+  commission: -73
+  baseToUsdConversionRate: 0.6527
+  closePositionDetail {
+    entryPrice: 0.65266
+    grossProfit: 100
+    swap: 0
+    commission: -146
+    balance: 456811
+    quoteToDepositConversionRate: 1.0
+    closedVolume: 2500000
+    balanceVersion: 36
+    moneyDigits: 2
+    pnlConversionFee: 0
+  }
+  moneyDigits: 2
+}
+isServerEvent: false
+
+2025-06-12 18:15:02,043 - INFO - [DEBUG] Ignoring event from account 41060638 (not master)

@@ -1,7 +1,23 @@
 # Configuration Template for cTrader Trade Copier
 # Copy this file to config.py and fill in your actual values
 
-from trade_copier import AccountConfig, ConnectionType
+from enum import Enum
+from dataclasses import dataclass
+
+class ConnectionType(Enum):
+    DEMO = "demo"
+    LIVE = "live"
+
+@dataclass
+class AccountConfig:
+    """Configuration for a cTrader account"""
+    client_id: str
+    client_secret: str
+    access_token: str
+    account_id: int
+    connection_type: ConnectionType
+    host: str = "demo.ctraderapi.com"  # Default demo host
+    port: int = 5035
 
 # Master Account Configuration (the account to copy FROM)
 MASTER_CONFIG = AccountConfig(

@@ -14,7 +14,6 @@ Before running:
 
 import asyncio
 import sys
-import os
 
 try:
     from config import MASTER_CONFIG, SLAVE_CONFIG, LOT_PERCENTAGE

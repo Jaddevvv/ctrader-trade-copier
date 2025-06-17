@@ -501,11 +501,8 @@ class SingleConnectionTradeCopier:
             
             logger.info(f"[COPY] Copying: {trade_signal.symbol} {trade_signal.side} {trade_signal.volume}")
             
-            # For dynamic pip sizing, we'll calculate pip values on-demand
-            # The _calculate_dynamic_pip_volume method will handle this automatically
-            
             # Calculate adjusted volume with instrument-specific logic
-            adjusted_volume = self._calculate_adjusted_volume(trade_signal.symbol, trade_signal.volume)
+            adjusted_volume = self._calculate_adjusted_volume(trade_signal.volume)
             
             # Store ratio for partial-close handling
             if trade_signal.volume:
@@ -534,86 +531,15 @@ class SingleConnectionTradeCopier:
         except Exception as e:
             logger.error(f"Failed to copy trade: {e}")
     
-    def _calculate_adjusted_volume(self, symbol, original_volume):
+    def _calculate_adjusted_volume(self, original_volume):
         """Calculate adjusted volume using dynamic pip values or fallback methods"""
         try:
-            return self._calculate_dynamic_pip_volume(symbol, original_volume)
+            return max(MIN_LOT_SIZE, int(original_volume * GLOBAL_LOT_MULTIPLIER))
 
-                
         except Exception as e:
-            logger.error(f"Error calculating adjusted volume: {e}")
-            # Fallback to 50% of original volume
-            return max(MIN_LOT_SIZE, int(original_volume * 0.5))
+            logger.error(f"Error in adjusted volume calculation: {e}")
+            return
     
-    def _calculate_dynamic_pip_volume(self, symbol, original_volume):
-        """Calculate volume based on dynamic pip values from both brokers"""
-        try:
-            symbol_id = self._get_symbol_id(symbol)
-            
-            # # Check if we have pip values cached for this symbol
-            # if symbol_id in self.pip_values_cache:
-            #     pip_data = self.pip_values_cache[symbol_id]
-            #     master_pip_value = pip_data.get("master_pip_value")
-            #     slave_pip_value = pip_data.get("slave_pip_value")
-                
-            #     if master_pip_value and slave_pip_value:
-            #         # Calculate risk multiplier based on pip values
-            #         # If slave has higher pip value, we need smaller volume to maintain same risk
-            #         risk_multiplier = (master_pip_value / slave_pip_value) * DYNAMIC_PIP_VOLUME_RATIO
-                    
-            #         # Apply safety limits
-            #         risk_multiplier = min(risk_multiplier, MAX_LOT_MULTIPLIER)
-            #         risk_multiplier = max(risk_multiplier, 0.001)
-                    
-            #         # Calculate adjusted volume
-            #         adjusted_volume = int(original_volume * risk_multiplier)
-            #         adjusted_volume = max(MIN_LOT_SIZE, adjusted_volume)
-                    
-            #         # Log the calculation details
-            #         original_lots = original_volume / 100000
-            #         adjusted_lots = adjusted_volume / 100000
-                    
-            #         logger.info(f"[DYNAMIC-PIP] {symbol}: {original_lots:.3f} lot → {adjusted_lots:.3f} lot")
-            #         logger.info(f"[DYNAMIC-PIP] Master pip value: ${master_pip_value:.5f}, Slave pip value: ${slave_pip_value:.5f}")
-            #         logger.info(f"[DYNAMIC-PIP] Risk multiplier: {risk_multiplier:.4f}")
-                    
-            #         return adjusted_volume
-            
-            # If no pip values available, calculate them now
-            logger.info(f"[DYNAMIC-PIP] No pip values cached for {symbol}, calculating...")
-            
-            # Try to calculate pip values if we have the necessary data
-            logger.info(f"[DYNAMIC-PIP] Attempting to calculate pip values for {symbol} (ID: {symbol_id})")
-            
-            master_pip_value = self._calculate_pip_value(symbol_id, "master")
-            slave_pip_value = self._calculate_pip_value(symbol_id, "slave")
-            
-            logger.info(f"[DYNAMIC-PIP] Results: Master pip value: {master_pip_value}, Slave pip value: {slave_pip_value}")
-            
-            if master_pip_value and slave_pip_value:
-                # Cache the calculated values
-                self.pip_values_cache[symbol_id] = {
-                    "master_pip_value": master_pip_value,
-                    "slave_pip_value": slave_pip_value
-                }
-                
-                # Recursively call this method now that we have the values
-                return self._calculate_dynamic_pip_volume(symbol, original_volume)
-            
-            # If we still don't have pip values, load the necessary data
-            if not self.master_data_loaded or not self.slave_data_loaded:
-                logger.info(f"[DYNAMIC-PIP] Account data not fully loaded, using fallback...")
-            else:
-                logger.info(f"[DYNAMIC-PIP] Unable to calculate pip values for {symbol}, using fallback...")
-            
-            # Use fallback calculation
-            return self._calculate_simple_multiplier_volume(symbol, original_volume)
-            
-        except Exception as e:
-            logger.error(f"Error in dynamic pip volume calculation: {e}")
-            return self._calculate_simple_multiplier_volume(symbol, original_volume)
-    
-
     def _get_symbol_id(self, symbol_name: str) -> int:
         """Map symbol name to ID - Extended mapping"""
         symbol_map = {

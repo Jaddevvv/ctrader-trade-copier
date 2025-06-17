@@ -387,13 +387,19 @@ class SingleConnectionTradeCopier:
                         # This is a new position - copy to slave
                         logger.info(f"[OPEN] New position detected: {symbol_name}")
                         
+                        # Get stop loss from order if available
+                        master_stop_loss = None
+                        if hasattr(execution_event, 'order') and execution_event.order:
+                            master_stop_loss = getattr(execution_event.order, 'relativeStopLoss', None)
+                        
                         # Create trade signal with symbol ID
                         trade_signal = TradeSignal(
                             symbol=symbol_name,
                             order_type="MARKET",
                             side="BUY" if trade_side == ProtoOATradeSide.BUY else "SELL",
                             volume=volume,
-                            comment="Copied from master"
+                            comment="Copied from master",
+                            stop_loss=master_stop_loss
                         )
                         
                         # Store the original symbol ID for copying
@@ -519,6 +525,8 @@ class SingleConnectionTradeCopier:
             order_req.tradeSide = ProtoOATradeSide.BUY if trade_signal.side == "BUY" else ProtoOATradeSide.SELL
             order_req.volume = adjusted_volume
             order_req.comment = "Copied from master"
+            if trade_signal.stop_loss:
+                order_req.relativeStopLoss = trade_signal.stop_loss
             
             logger.info(f"[DEBUG] Using symbol ID {symbol_id_to_use} for {trade_signal.symbol}")
             logger.info(f"[DEBUG] Original volume: {trade_signal.volume}, Adjusted volume: {adjusted_volume}")
